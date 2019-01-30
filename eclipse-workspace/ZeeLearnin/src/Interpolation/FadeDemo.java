@@ -1,52 +1,40 @@
 package Interpolation;
 
-import java.util.Calendar;
-import java.util.Date;
 
-/*TO-DO
- * 1. Look into Threads aka Runnable for Timer.
- * 
-*/
 
-public class FadeDemo implements Runnable {
+
+
+
+public class FadeDemo {
 	
 	
 	static long startTime = 0L;
 	static long elapsedTime, elapsedSeconds, elapsedMinutes, secondsDisplay = 0L;
 	static float elapsedTimeF, seconds, t, minimum, maximum = 0.0f;
+	static float timeLimit = 10;
 	
 	
-	
+	/*
+	 *  A function that acts as a timer. Counts up to ten seconds.
+	 * 
+	 */
 	public static void Timer()
 	{
 		
-		while(elapsedSeconds < 10) {
+		while(elapsedSeconds < timeLimit) {
 			elapsedTime = System.currentTimeMillis() - startTime;
 			elapsedSeconds = elapsedTime / 1000;
 			secondsDisplay = elapsedSeconds % 60;
 			elapsedMinutes = elapsedSeconds / 60;
 			seconds = (float)elapsedSeconds;
 			
-			minimum = -1.0f;
-			maximum = 1.0f;
-			System.out.println(secondsDisplay);
-			//System.out.println(pingpong(seconds,3));
+			
+			//System.out.println(secondsDisplay);
+			//System.out.println(pingpong(seconds,3)); |SUCCESS|
 			//System.out.println(lerp(minimum,maximum, t));
 			
-			t += 0.5f * seconds;
 			
-			if (t > 1.0f){
-	            float temp = maximum;
-	            maximum = minimum;
-	            minimum = temp;
-	            t = 0.0f;
-	        }
-			else if(t <= -1.0f) {
-	        	float temp = minimum;
-	        	minimum = maximum;
-	        	maximum = temp;
-	        	t = 0.0f;
-	        }
+			
 		}
 	}
 
@@ -54,31 +42,53 @@ public class FadeDemo implements Runnable {
 		// TODO Auto-generated method stub
 
 		startTime = System.currentTimeMillis();
-		Date d = new Date();
-		long currTime = d.getTime();
 		
+		//Timer();
 		
+		//Schedule a job for the event-dispatching thread;
+		//creating and showing this application's GUI.
 		
-		Timer();
-		//System.out.println(pingpong(elapsedSeconds,3));
 		
 		
 	}
 	
-	static float pingpong(float t, float length)
+	/*
+	 * Makes a value go back an fourth. 
+	 *  WIP
+	 *  WORKS but is a Work in Progress
+	 */
+	static float pingpong(float time, float length)
 	{
-	    return t % length;
+		float l = 2 * length;
+		float t = time % l;
+		
+		
+		if(t >= 0 && t < length) {
+			return t;
+		}else {
+			return l - t;
+		}
+		
+	    
 	}
 	
+	// WIP
+	static float fade(float time, float value) {
+		value -= time / 2;
+		
+		return value;
+	}
+	
+	// WIP
 	static float lerp(float a, float b, float f) {
 		return a + f * (b-a);
-	}
-
-	@Override
-	public void run() {
-		// TODO Auto-generated method stub
 		
 	}
+
+	
+	
+	
+	
 	
 	/*float ColorLerp(color a, color b, float time) {
 		a = brightnessMax;
